@@ -48,8 +48,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   updateWorkerConfig(timerValue: number, arraySize: number) {
     this.timerValue = timerValue;
-    this.arraySize = arraySize;
-    this.worker.postMessage({ timerValue, arraySize });
+    this.arraySize = arraySize > 0 ? arraySize : 10;
+    this.worker.postMessage({ timerValue, arraySize: this.arraySize });
   }
 
   updateIds(additionalIds: string) {
