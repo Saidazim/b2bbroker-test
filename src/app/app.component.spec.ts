@@ -1,31 +1,52 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+      imports: [FormsModule],
+      declarations: [AppComponent],
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'b2bbroker-test'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('b2bbroker-test');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('b2bbroker-test app is running!');
+  });
+
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('#updateWorkerConfig should update timerValue and arraySize', () => {
+    component.updateWorkerConfig(2000, 20);
+    expect(component.timerValue).toEqual(2000);
+    expect(component.arraySize).toEqual(20);
+  });
+
+  it('#updateIds should update additionalIds and call overwriteIds', () => {
+    spyOn(component as any, 'overwriteIds');
+    component.updateIds('123,456');
+    expect(component.additionalIds).toEqual('123,456');
+    expect((component as any).overwriteIds).toHaveBeenCalled();
+  });
+
+  it('#overwriteIds should split additionalIds and overwrite data IDs', () => {
+    component.additionalIds = '123,456';
+    component.data = [{ id: '1' }, { id: '2' }];
+    (component as any).overwriteIds();
+    expect(component.data).toEqual([{ id: '123' }, { id: '456' }]);
+  });
+
+  it('should terminate worker on destroy', () => {
+    const worker = { terminate: jasmine.createSpy('terminate') };
+    component['worker'] = worker as any;
+    component.ngOnDestroy();
+    expect(worker.terminate).toHaveBeenCalled();
   });
 });
