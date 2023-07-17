@@ -57,12 +57,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.overwriteIds();
   }
 
-  private overwriteIds() {
+  private overwriteIds(): void {
     // Split the additionalIds string into an array and overwrite the IDs of the first n elements
     const ids = this.additionalIds.split(',').map((id) => id.trim());
-    for (let i = 0; i < ids.length; i++) {
-      if (this.data[i]) {
-        this.data[i].id = ids[i];
+    if (ids[0]) {
+      for (let i = 0; i < ids.length; i++) {
+        if (this.data[i]) {
+          this.data[i].id = ids[i];
+        }
       }
     }
   }
