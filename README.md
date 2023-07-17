@@ -1,5 +1,6 @@
 # B2bbrokerTest
 
+## [DEMO](https://saidazim.github.io/b2bbroker-test/)
 A Single Page Application (SPA) that manages and displays high-frequency data using Angular 15 and Web Workers.
 
 <img width="1509" alt="image" src="https://github.com/Saidazim/b2bbroker-test/assets/33751859/4e83986f-2eda-4be0-a77f-7ceb0f84bc8c">
