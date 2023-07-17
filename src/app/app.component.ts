@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChildModel } from './models/child.model';
+import { DataModel } from './models/data.model';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +19,18 @@ export class AppComponent implements OnInit, OnDestroy {
       this.worker = new Worker(new URL('./app.worker', import.meta.url));
       this.worker.onmessage = ({ data }) => {
         console.log('page got message:', data);
-        this.data = data.slice(-10); // Keep only the last 10 elements
+        this.data = data
+          .slice(-10)
+          .map(
+            (item: any) =>
+              new DataModel(
+                item.id,
+                item.int,
+                item.float,
+                item.color,
+                new ChildModel(item.child.id, item.child.color)
+              )
+          );
         this.overwriteIds();
       };
       this.worker.postMessage({
