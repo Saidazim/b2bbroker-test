@@ -13,7 +13,7 @@ const generateData = () => {
         // Generate random int, float and color values
         const int = Math.floor(Math.random() * 100);
         const float = parseFloat((Math.random() * 100).toFixed(18));
-        const colors = ['red', 'green', 'blue', 'yellow', 'black', 'white'];
+        const colors = ['red', 'green', 'blue', 'yellow', 'grey', 'white'];
         const color = colors[Math.floor(Math.random() * colors.length)];
 
         // Generate child object
